@@ -8,22 +8,23 @@ class Routes {
   static const String popularFoods = '/popular-foods';
   static const String recommededFoods = '/recommended-foods';
 
- 
-
   static String getInitialPage() => '$initialPage';
   static String getRecommendedFood() => '$recommededFoods';
 
-   static String getPopularFood(int pageId) =>
-      '$popularFoods ? pageId = $pageId';
+  static String getPopularFood(int x) => '$popularFoods?pageid=$x';
 
   static List<GetPage> routes = [
-    GetPage(name: initialPage, page: () => MainFoodHomePage()),
+    GetPage(
+        name: initialPage,
+        page: () {
+          return MainFoodHomePage();
+        }),
     GetPage(
         name: popularFoods,
         page: () {
-          var pageId = Get.parameters['pageId'];
-          print('We are at page' + pageId.toString());
-          return PopularFoodDetail(pageId: int.parse(pageId!));
+          var id = Get.parameters['pageid'];
+
+          return PopularFoodDetail(pageId: int.parse(id!));
         }),
     GetPage(
         name: recommededFoods,

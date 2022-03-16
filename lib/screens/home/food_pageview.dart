@@ -230,8 +230,9 @@ class _FoodPageViewState extends State<FoodPageView> {
         children: [
           GestureDetector(
             onTap: () {
-              // Get.toNamed(Routes.getPopularFood(index));
-              Get.toNamed(Routes.getPopularFood(index));
+              Get.toNamed(
+                Routes.getPopularFood(index),
+              );
             },
             child: Container(
               height: Dimensions.foodItemContainer,

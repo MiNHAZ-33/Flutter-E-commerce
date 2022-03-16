@@ -7,7 +7,9 @@ import 'package:food_delivery/widgets/small_text.dart';
 import 'food_pageview.dart';
 
 class MainFoodHomePage extends StatelessWidget {
-  const MainFoodHomePage({Key? key}) : super(key: key);
+  MainFoodHomePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

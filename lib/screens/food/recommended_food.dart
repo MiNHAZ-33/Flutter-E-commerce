@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/routes/page_routes.dart';
 import 'package:food_delivery/utils/colors.dart';
 import 'package:food_delivery/widgets/big_text.dart';
 import 'package:food_delivery/widgets/small_text.dart';
+import 'package:get/get.dart';
 
 import '../../utils/dimensions.dart';
 import '../../widgets/app_icon.dart';
@@ -19,7 +21,11 @@ class RecommendedFoodDetail extends StatelessWidget {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(icon: Icons.arrow_back),
+                GestureDetector(
+                    onTap: () {
+                      Get.toNamed(Routes.getInitialPage());
+                    },
+                    child: AppIcon(icon: Icons.arrow_back)),
                 AppIcon(icon: Icons.shopping_cart_outlined),
               ],
             ),
