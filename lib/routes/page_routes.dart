@@ -9,7 +9,7 @@ class Routes {
   static const String recommededFoods = '/recommended-foods';
 
   static String getInitialPage() => '$initialPage';
-  static String getRecommendedFood() => '$recommededFoods';
+  static String getRecommendedFood(int x) => '$recommededFoods?pageid=$x';
 
   static String getPopularFood(int x) => '$popularFoods?pageid=$x';
 
@@ -29,7 +29,8 @@ class Routes {
     GetPage(
         name: recommededFoods,
         page: () {
-          return RecommendedFoodDetail();
+          var id = Get.parameters['pageid'];
+          return RecommendedFoodDetail(pageId: int.parse(id!));
         })
   ];
 }

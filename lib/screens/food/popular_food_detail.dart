@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/controllers/cart_controller.dart';
 import 'package:food_delivery/controllers/popular_product_controller.dart';
+import 'package:food_delivery/models/products_model.dart';
 import 'package:food_delivery/routes/page_routes.dart';
 import 'package:food_delivery/screens/home/main_food_page.dart';
+import 'package:food_delivery/utils/appconstant.dart';
 import 'package:food_delivery/utils/dimensions.dart';
 import 'package:food_delivery/widgets/app_icon.dart';
 import 'package:food_delivery/widgets/column_with_rating.dart';
@@ -22,10 +25,12 @@ class PopularFoodDetail extends StatelessWidget {
     // var product =
     //     Get.find<PopularProductController>().popularProductList[pageId];
 
-    var product =
+    ProductModel product =
         Get.find<PopularProductController>().popularProductList[pageId];
 
-    print(product.name.toString());
+    Get.find<PopularProductController>().initQuantity();
+    Get.find<PopularProductController>()
+        .initProduct(Get.find<CartController>(), product);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -39,7 +44,8 @@ class PopularFoodDetail extends StatelessWidget {
               height: Dimensions.mainFoodImageContainer,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/image/food0.png'),
+                    image: NetworkImage(
+                        AppConstant.BASE_URL + '/uploads/' + product.img!),
                     fit: BoxFit.cover),
               ),
             ),
@@ -78,7 +84,7 @@ class PopularFoodDetail extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppColumn(
-                    title: 'Chinese',
+                    title: product.name!,
                   ),
                   SizedBox(
                     height: Dimensions.paddingHeight15,
@@ -89,9 +95,7 @@ class PopularFoodDetail extends StatelessWidget {
                   ),
                   Expanded(
                     child: SingleChildScrollView(
-                      child: ExpandableText(
-                          text:
-                              'Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sin Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. t occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+                      child: ExpandableText(text: product.description!),
                     ),
                   )
                 ],
@@ -100,58 +104,79 @@ class PopularFoodDetail extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        height: 120,
-        padding: EdgeInsets.only(
-          top: Dimensions.paddingHeight15,
-          bottom: Dimensions.paddingHeight15,
-          left: Dimensions.paddingHeight10,
-          right: Dimensions.paddingHeight10,
-        ),
-        decoration: BoxDecoration(
-          color: AppColors.buttonBackgroundColor,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+      bottomNavigationBar:
+          GetBuilder<PopularProductController>(builder: (products) {
+        return Container(
+          height: 120,
+          padding: EdgeInsets.only(
+            top: Dimensions.paddingHeight15,
+            bottom: Dimensions.paddingHeight15,
+            left: Dimensions.paddingHeight10,
+            right: Dimensions.paddingHeight10,
           ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(15)),
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.remove,
-                    color: AppColors.signColor,
-                  ),
-                  SizedBox(
-                    width: Dimensions.paddingWidht10 / 3,
-                  ),
-                  BigText(text: '0', color: AppColors.signColor),
-                  SizedBox(
-                    width: Dimensions.paddingWidht10 / 3,
-                  ),
-                  Icon(
-                    Icons.add,
-                    color: AppColors.signColor,
-                  )
-                ],
+          decoration: BoxDecoration(
+            color: AppColors.buttonBackgroundColor,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15)),
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        products.setQuantity(false);
+                      },
+                      child: Icon(
+                        Icons.remove,
+                        color: AppColors.signColor,
+                      ),
+                    ),
+                    SizedBox(
+                      width: Dimensions.paddingWidht10 / 3,
+                    ),
+                    BigText(
+                        text: products.getCartItems.toString(),
+                        color: AppColors.signColor),
+                    SizedBox(
+                      width: Dimensions.paddingWidht10 / 3,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        products.setQuantity(true);
+                      },
+                      child: Icon(
+                        Icons.add,
+                        color: AppColors.signColor,
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                  color: AppColors.mainColor,
-                  borderRadius: BorderRadius.circular(15)),
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-              child: BigText(text: '\$ 10 added to your cart '),
-            ),
-          ],
-        ),
-      ),
+              GestureDetector(
+                onTap: () {
+                  products.addItem(product);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.mainColor,
+                      borderRadius: BorderRadius.circular(15)),
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                  child: BigText(text: '\$ 10 added to your cart '),
+                ),
+              ),
+            ],
+          ),
+        );
+      },),
     );
   }
 }
