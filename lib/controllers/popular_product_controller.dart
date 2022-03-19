@@ -44,10 +44,14 @@ class PopularProductController extends GetxController {
   }
 
   int checkQuantity(int quantity) {
-    if (quantity > 20) {
+    if ((_intCartItems + quantity) > 20) {
       return 20;
     }
-    if (quantity < 0) {
+    if (_intCartItems > 0) {
+      _quantity = -_intCartItems;
+      return _quantity;
+    }
+    if ((_intCartItems + quantity) < 0) {
       return 0;
     } else {
       return quantity;
@@ -69,18 +73,19 @@ class PopularProductController extends GetxController {
   }
 
   void addItem(ProductModel product) {
-    if (_quantity > 0) {
-      _cart.addItem(product, _quantity);
-      _quantity = 0;
-      _cart.items.forEach((key, value) {
-        print('The id is :' +
-            value.id.toString() +
-            'The quantity is :' +
-            value.quantity.toString());
-      });
-    } else {
-      Get.snackbar('Cart message', 'You should at least add one item',
-          backgroundColor: AppColors.mainColor);
-    }
+    _cart.addItem(product, _quantity);
+    _quantity = 0;
+    _intCartItems = _cart.getQuantity(product);
+    _cart.items.forEach((key, value) {
+      print('The id is :' +
+          value.id.toString() +
+          'The quantity is :' +
+          value.quantity.toString());
+    });
+    update();
+  }
+
+  int get totalItems {
+    return _cart.totalQuantity;
   }
 }

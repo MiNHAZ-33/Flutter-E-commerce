@@ -12,8 +12,10 @@ class CartController extends GetxController {
   Map<int, CartModel> get items => _cartItems;
 
   void addItem(ProductModel product, int quantity) {
+    var totalQuantity = 0;
     if (_cartItems.containsKey(product.id!)) {
       _cartItems.update(product.id!, (value) {
+        totalQuantity = value.quantity! + quantity;
         return CartModel(
             id: value.id,
             name: value.name,
@@ -23,22 +25,30 @@ class CartController extends GetxController {
             time: DateTime.now().toString(),
             isExist: true);
       });
+      if (totalQuantity <= 0) {
+        _cartItems.remove(product.id);
+      }
     } else {
-      _cartItems.putIfAbsent(
-        product.id!,
-        () {
-          print(
-              'Adding item in the cart' + 'quantity = ' + quantity.toString());
-          return CartModel(
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              img: product.img,
-              quantity: quantity,
-              time: DateTime.now().toString(),
-              isExist: true);
-        },
-      );
+      if (quantity > 0) {
+        _cartItems.putIfAbsent(
+          product.id!,
+          () {
+            print('Adding item in the cart' +
+                'quantity = ' +
+                quantity.toString());
+            return CartModel(
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                img: product.img,
+                quantity: quantity,
+                time: DateTime.now().toString(),
+                isExist: true);
+          },
+        );
+      } else {
+        Get.snackbar('Item count', 'You should add at least one item');
+      }
     }
   }
 
@@ -60,5 +70,13 @@ class CartController extends GetxController {
       });
     }
     return quantity;
+  }
+
+  int get totalQuantity {
+    var totalQuantitys = 0;
+    _cartItems.forEach((key, value) {
+      totalQuantitys += value.quantity!;
+    });
+    return totalQuantitys;
   }
 }
