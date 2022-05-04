@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/controllers/popular_product_controller.dart';
 import 'package:food_delivery/routes/page_routes.dart';
-import 'package:food_delivery/screens/food/popular_food_detail.dart';
-import 'package:food_delivery/screens/food/recommended_food.dart';
 import 'package:get/get.dart';
 
 import 'controllers/recommended_product_controller.dart';
