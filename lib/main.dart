@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/controllers/popular_product_controller.dart';
 import 'package:food_delivery/routes/page_routes.dart';
+import 'package:food_delivery/screens/cart/cart_page.dart';
 import 'package:get/get.dart';
 
 import 'controllers/recommended_product_controller.dart';
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Food delivery',
       debugShowCheckedModeBanner: false,
-      home: MainFoodHomePage(),
+      // home: MainFoodHomePage(),
+      home: CartPage(),
       getPages: Routes.routes,
       // home: MainFoodHomePage(),
     );
