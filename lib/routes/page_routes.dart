@@ -3,15 +3,19 @@ import 'package:food_delivery/screens/food/recommended_food.dart';
 import 'package:food_delivery/screens/home/main_food_page.dart';
 import 'package:get/get.dart';
 
+import '../screens/cart/cart_page.dart';
+
 class Routes {
   static const String initialPage = '/';
   static const String popularFoods = '/popular-foods';
   static const String recommededFoods = '/recommended-foods';
+  static const String cartPage = '/cart-page';
 
   static String getInitialPage() => '$initialPage';
   static String getRecommendedFood(int x) => '$recommededFoods?pageid=$x';
 
   static String getPopularFood(int x) => '$popularFoods?pageid=$x';
+  static String getCartPage() => '$cartPage';
 
   static List<GetPage> routes = [
     GetPage(
@@ -31,6 +35,11 @@ class Routes {
         page: () {
           var id = Get.parameters['pageid'];
           return RecommendedFoodDetail(pageId: int.parse(id!));
+        }),
+    GetPage(
+        name: cartPage,
+        page: () {
+          return const CartPage();
         })
   ];
 }

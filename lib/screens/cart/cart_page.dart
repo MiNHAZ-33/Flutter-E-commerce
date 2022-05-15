@@ -7,6 +7,7 @@ import 'package:food_delivery/widgets/big_text.dart';
 import 'package:food_delivery/widgets/small_text.dart';
 import 'package:get/get.dart';
 
+import '../../routes/page_routes.dart';
 import '../../utils/colors.dart';
 
 class CartPage extends StatelessWidget {
@@ -26,6 +27,7 @@ class CartPage extends StatelessWidget {
               // color: Colors.blue,
               height: 700,
               child: GetBuilder<CartController>(builder: (incart) {
+                var cartList = incart.getItems;
                 return ListView.builder(
                   itemCount: incart.getItems.length,
                   itemBuilder: (context, index) {
@@ -58,7 +60,7 @@ class CartPage extends StatelessWidget {
                               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                BigText(text: incart.items[index]!.name!),
+                                BigText(text: incart.getItems[index].name!),
                                 SmallText(
                                   text: 'Spicy',
                                   color: Colors.black,
@@ -69,14 +71,16 @@ class CartPage extends StatelessWidget {
                                   children: [
                                     BigText(
                                       text:
-                                          '\$${incart.items[index]!.price.toString()}',
+                                          '\$${incart.getItems[index].price.toString()}',
                                       color: Colors.red,
                                     ),
                                     Row(
                                       children: [
                                         GestureDetector(
                                           onTap: () {
-                                            // products.setQuantity(false);
+                                            incart.addItem(
+                                                incart.getItems[index].product!,
+                                                -1);
                                           },
                                           child: Icon(
                                             Icons.remove,
@@ -87,8 +91,9 @@ class CartPage extends StatelessWidget {
                                           width: Dimensions.paddingWidht10 / 3,
                                         ),
                                         BigText(
-                                            text:
-                                                '0', // products.getCartItems.toString(),
+                                            text: cartList[index]
+                                                .quantity!
+                                                .toString(), // products.getCartItems.toString(),
                                             color: AppColors.signColor),
                                         SizedBox(
                                           width: Dimensions.paddingWidht10 / 3,
@@ -96,6 +101,9 @@ class CartPage extends StatelessWidget {
                                         GestureDetector(
                                           onTap: () {
                                             // products.setQuantity(true);
+                                            incart.addItem(
+                                                incart.getItems[index].product!,
+                                                1);
                                           },
                                           child: Icon(
                                             Icons.add,
@@ -124,18 +132,28 @@ class CartPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const AppIcon(
-                  icon: Icons.arrow_back_ios,
-                  iconColor: Colors.white,
-                  color: Colors.red,
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.getInitialPage());
+                  },
+                  child: const AppIcon(
+                    icon: Icons.arrow_back_ios,
+                    iconColor: Colors.white,
+                    color: Colors.red,
+                  ),
                 ),
                 SizedBox(
                   width: Dimensions.paddingWidht15,
                 ),
-                const AppIcon(
-                  icon: Icons.home_outlined,
-                  iconColor: Colors.white,
-                  color: Colors.red,
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(Routes.initialPage);
+                  },
+                  child: const AppIcon(
+                    icon: Icons.home_outlined,
+                    iconColor: Colors.white,
+                    color: Colors.red,
+                  ),
                 ),
                 const AppIcon(
                   icon: Icons.shopping_cart,

@@ -24,8 +24,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Food delivery',
       debugShowCheckedModeBanner: false,
-      // home: MainFoodHomePage(),
-      home: CartPage(),
+      home: MainFoodHomePage(),
       getPages: Routes.routes,
       // home: MainFoodHomePage(),
     );

@@ -3,6 +3,7 @@ import 'package:food_delivery/controllers/cart_controller.dart';
 import 'package:food_delivery/controllers/popular_product_controller.dart';
 import 'package:food_delivery/models/products_model.dart';
 import 'package:food_delivery/routes/page_routes.dart';
+import 'package:food_delivery/screens/cart/cart_page.dart';
 import 'package:food_delivery/screens/home/main_food_page.dart';
 import 'package:food_delivery/utils/appconstant.dart';
 import 'package:food_delivery/utils/dimensions.dart';
@@ -59,36 +60,44 @@ class PopularFoodDetail extends StatelessWidget {
               children: [
                 GestureDetector(
                     onTap: () {
+                     
                       Get.toNamed(Routes.initialPage);
                     },
-                    child: AppIcon(icon: Icons.arrow_back)),
+                    child: const AppIcon(icon: Icons.arrow_back)),
                 GetBuilder<PopularProductController>(builder: (popularProduct) {
-                  return Stack(
-                    children: [
-                      AppIcon(icon: Icons.shopping_cart_outlined),
-                      popularProduct.totalItems >= 1
-                          ? Positioned(
-                              top: 3,
-                              right: 0,
-                              child: AppIcon(
-                                icon: Icons.circle,
-                                color: AppColors.mainColor,
-                                iconColor: Colors.transparent,
-                                size: 25,
-                              ),
-                            )
-                          : Container(),
-                      popularProduct.totalItems >= 1
-                          ? Positioned(
-                              top: 3,
-                              right: 3,
-                              child: BigText(
-                                text: popularProduct.totalItems.toString(),
-                                color: Colors.white,
-                              ),
-                            )
-                          : Container(),
-                    ],
+                  return GestureDetector(
+                    onTap: () {
+                            if(popularProduct.totalItems >=1)
+                            Get.toNamed(Routes.getCartPage());
+                          },
+                    child: Stack(
+                      children: [
+                        const AppIcon(
+                            icon: Icons.shopping_cart_outlined),
+                        popularProduct.totalItems >= 1
+                            ? Positioned(
+                                top: 3,
+                                right: 0,
+                                child: AppIcon(
+                                  icon: Icons.circle,
+                                  color: AppColors.mainColor,
+                                  iconColor: Colors.transparent,
+                                  size: 25,
+                                ),
+                              )
+                            : Container(),
+                        popularProduct.totalItems >= 1
+                            ? Positioned(
+                                top: 3,
+                                right: 3,
+                                child: BigText(
+                                  text: popularProduct.totalItems.toString(),
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Container(),
+                      ],
+                    ),
                   );
                 }),
               ],
@@ -101,7 +110,7 @@ class PopularFoodDetail extends StatelessWidget {
             top: Dimensions.mainFoodImageContainer - 20,
             child: Container(
               padding: EdgeInsets.all(Dimensions.paddingWidht20),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),

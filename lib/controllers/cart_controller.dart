@@ -22,6 +22,7 @@ class CartController extends GetxController {
             price: value.price,
             img: value.img,
             quantity: value.quantity! + quantity,
+            product: product,
             time: DateTime.now().toString(),
             isExist: true);
       });
@@ -43,6 +44,7 @@ class CartController extends GetxController {
                 img: product.img,
                 quantity: quantity,
                 time: DateTime.now().toString(),
+                product: product,
                 isExist: true);
           },
         );
@@ -50,6 +52,7 @@ class CartController extends GetxController {
         Get.snackbar('Item count', 'You should add at least one item');
       }
     }
+    update();
   }
 
   bool existInCart(ProductModel product) {

@@ -37,32 +37,38 @@ class RecommendedFoodDetail extends StatelessWidget {
                     },
                     child: AppIcon(icon: Icons.arrow_back)),
                 GetBuilder<PopularProductController>(builder: (popularProduct) {
-                  return Stack(
-                    children: [
-                      AppIcon(icon: Icons.shopping_cart_outlined),
-                      popularProduct.totalItems >= 1
-                          ? Positioned(
-                              top: 3,
-                              right: 0,
-                              child: AppIcon(
-                                icon: Icons.circle,
-                                color: AppColors.mainColor,
-                                iconColor: Colors.transparent,
-                                size: 25,
-                              ),
-                            )
-                          : Container(),
-                      popularProduct.totalItems >= 1
-                          ? Positioned(
-                              top: 3,
-                              right: 3,
-                              child: BigText(
-                                text: popularProduct.totalItems.toString(),
-                                color: Colors.white,
-                              ),
-                            )
-                          : Container(),
-                    ],
+                  return GestureDetector(
+                    onTap: () {
+                          if(popularProduct.totalItems >=1)
+                          Get.toNamed(Routes.getCartPage());
+                        },
+                    child: Stack(
+                      children: [
+                        AppIcon(icon: Icons.shopping_cart_outlined),
+                        popularProduct.totalItems >= 1
+                            ? Positioned(
+                                top: 3,
+                                right: 0,
+                                child: AppIcon(
+                                  icon: Icons.circle,
+                                  color: AppColors.mainColor,
+                                  iconColor: Colors.transparent,
+                                  size: 25,
+                                ),
+                              )
+                            : Container(),
+                        popularProduct.totalItems >= 1
+                            ? Positioned(
+                                top: 3,
+                                right: 3,
+                                child: BigText(
+                                  text: popularProduct.totalItems.toString(),
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Container(),
+                      ],
+                    ),
                   );
                 }),
               ],
